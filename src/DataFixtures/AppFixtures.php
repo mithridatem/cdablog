@@ -16,33 +16,18 @@ class AppFixtures extends Fixture
         -Créer 50 Utilisateurs,
         -Créer 200 articles,
         */
-        //création de 30 articles
+        $faker = Faker\Factory::create('fr_FR');
+        //créer un tableau pour stocker les catégories
+        $categories = [];
+
+        //boucle pour créer 30 catégories
         for ($i=0; $i < 30; $i++) { 
-           $cat = new Categorie();
-           $cat->setNom("News");
-           $manager->persist($cat);
+            $cat = new Categorie();
+            $cat->setNom($faker->jobTitle());
+            //persister la catégorie
+            $manager->persist($cat);
+            //ajouter la catégorie au tableau categories
+            $categories[] = $cat;
         }
-
-        //création de 50 Utilisateurs
-        for ($i=0; $i < 50 ; $i++) { 
-            $user = new Utilisateur();
-            $user->setNom("Test")
-                ->setPrenom("Test")
-                ->setEmail("test@test.com")
-                ->setPassword(md5("1234"));
-            $manager->persist($user);
-        }
-
-        //création de 200 articles
-        for ($i=0; $i < 200; $i++) { 
-            $article = new Article();
-            $article->setTitre("Titre")
-                ->setContenu("Contenu de l'article")
-                ->setDateCreation(new \DateTime("2024-02-28"))
-                ->addCategory($cat)
-                ->setUtilisateur($user);
-            $manager->persist($article);
-        }
-        $manager->flush();
     }
 }
