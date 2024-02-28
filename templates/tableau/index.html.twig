@@ -1,0 +1,17 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Tableau{% endblock %}
+
+{% block body %}
+    {# Boucle pour parcourir un tableau indéxé #}
+    {% for ligne in tab %}
+        <p>{{ ligne }}</p>
+    {% endfor %}
+    {# Boucle pour parcourir un tableau indéxé => tableau associatif#}
+    {% for row in users %}
+        {# itérer avec le nom de la colonne #}
+        <p>{{ row.nom }}  {{ row.prenom }}  {{ row.age }}</p>
+    {% endfor %}
+    {# affichage indiviuel tableau associatif contenu dans un tableau indexé #}
+    {{ users[0].prenom }}
+{% endblock %}

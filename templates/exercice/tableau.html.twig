@@ -1,0 +1,11 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Exercice tableau{% endblock %}
+
+{% block body %}
+    {% for ligne in tableau %}
+        {% if ligne > 20 %}
+            <p>{{ ligne }}</p>
+        {% endif %}
+    {% endfor %}
+{% endblock %}
