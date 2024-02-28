@@ -7,42 +7,42 @@ use Doctrine\Persistence\ObjectManager;
 use App\Entity\Categorie;
 use App\Entity\Utilisateur;
 use App\Entity\Article;
-
+use Faker;
 class AppFixtures extends Fixture
 {
     public function load(ObjectManager $manager): void
     {
-        //ajout d'une categorie
-        $categorie = new Categorie();
-        $categorie->setNom("Actualite");
-        //persister la catégorie
-        $manager->persist($categorie);
-        //ajout d'une categorie 2
-        $categorie2 = new Categorie();
-        $categorie2->setNom("new");
-        //persister la catégorie 2
-        $manager->persist($categorie2);
-        
-        //ajout d'un utilisateur
-        $user = new Utilisateur();
-        $user->setNom("Mithridate")
-            ->setPrenom("Mathieu")
-            ->setEmail("test@test.com")
-            ->setPassword(md5("1234"));
-        //persister l'utilisateur
-        $manager->persist($user);
+        /*-Créer 30 catégories,
+        -Créer 50 Utilisateurs,
+        -Créer 200 articles,
+        */
+        //création de 30 articles
+        for ($i=0; $i < 30; $i++) { 
+           $cat = new Categorie();
+           $cat->setNom("News");
+           $manager->persist($cat);
+        }
 
-        //créer un objet article
-        $article = new Article();
-        $article->setTitre("Nouveau article")
-        ->setContenu("contenu de l'article")
-        ->setDateCreation(new \DateTimeImmutable("2024-02-28"))
-        ->setUtilisateur($user)
-        ->addCategory($categorie)
-        ->addCategory($categorie2);
-        //persister l'article
-        $manager->persist($article);
-        //enregistrer en BDD
+        //création de 50 Utilisateurs
+        for ($i=0; $i < 50 ; $i++) { 
+            $user = new Utilisateur();
+            $user->setNom("Test")
+                ->setPrenom("Test")
+                ->setEmail("test@test.com")
+                ->setPassword(md5("1234"));
+            $manager->persist($user);
+        }
+
+        //création de 200 articles
+        for ($i=0; $i < 200; $i++) { 
+            $article = new Article();
+            $article->setTitre("Titre")
+                ->setContenu("Contenu de l'article")
+                ->setDateCreation(new \DateTime("2024-02-28"))
+                ->addCategory($cat)
+                ->setUtilisateur($user);
+            $manager->persist($article);
+        }
         $manager->flush();
     }
 }
