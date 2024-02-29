@@ -26,10 +26,13 @@ class ArticleController extends AbstractController
         ]);
     }
 
-    #[Route('/article/id',name:'app_article_id')]
-    public function articleById() : Response 
-    {
+    #[Route('/article/id/{id}',name:'app_article_id')]
+    public function articleById($id) : Response 
+    {   
+        $article = $this->articleRepository->find($id);
+
         return $this->render('article/article_detail.html.twig', [
+            'article' => $article,
         ]);
     }
 }
