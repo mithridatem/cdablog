@@ -38,7 +38,8 @@ class AppFixtures extends Fixture
                 ->setNom($faker->lastName())
                 ->setPrenom($faker->firstName('male'|'female'))
                 ->setEmail($faker->freeEmail())
-                ->setPassword($faker->md5());
+                ->setPassword($faker->md5())
+                ->setUrlImg($faker->imageUrl(640, 480, 'humain', true));
             $utilisateurs[] = $user;
             $manager->persist($user);
         }
@@ -50,6 +51,7 @@ class AppFixtures extends Fixture
                 ->setTitre($faker->words(3, true))
                 ->setContenu($faker->paragraph(2, false))
                 ->setDateCreation(new \DateTimeImmutable($faker->date('Y-m-d')))
+                ->setUrlImg($faker->imageUrl(640, 480, 'Article', true))
                 ->setUtilisateur($utilisateurs[$faker->numberBetween(0, 49)])
                 ->addCategory($categories[$faker->numberBetween(0, 9)])
                 ->addCategory($categories[$faker->numberBetween(10, 19)])

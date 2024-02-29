@@ -31,6 +31,9 @@ class Article
     #[ORM\Column(type: Types::TEXT)]
     private ?string $contenu = null;
 
+    #[ORM\Column(length: 200)]
+    private ?string $urlImg = null;
+
 
     public function __construct()
     {
@@ -111,6 +114,18 @@ class Article
     public function setContenu(string $contenu): static
     {
         $this->contenu = $contenu;
+
+        return $this;
+    }
+
+    public function getUrlImg(): ?string
+    {
+        return $this->urlImg;
+    }
+
+    public function setUrlImg(string $urlImg): static
+    {
+        $this->urlImg = $urlImg;
 
         return $this;
     }
