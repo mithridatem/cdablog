@@ -7,3 +7,4 @@
  */
 import './styles/app.css';
 import './styles/app.tailwind.css';
+import './preline.js'

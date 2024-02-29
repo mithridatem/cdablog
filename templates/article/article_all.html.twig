@@ -1,0 +1,26 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Liste des articles{% endblock %}
+
+{% block body %}
+<section class="text-gray-600 body-font">
+    <div class="container px-5 py-24 mx-auto">
+      <div class="flex flex-wrap -mx-4 -my-8 gap-4">
+        {# Boucle pour répéter la card article #}
+        {# exemple parcourir la liste des articles #}
+        {% for article in articles %}
+            <p>{{ article.dateCreation | date('d/m/Y') }}</p>
+            <p>{{ article.utilisateur }}</p>
+            {# exemple parcourir la liste des catégories #}
+            {% for categorie in article.categories %}
+                <p>{{ categorie.id }}</p>
+            {% endfor %}
+            <p>{{ article.categories[0].nom }}</p>
+            <p>{{ article.categories[1].nom }}</p>
+            <p>{{ article.categories[2].nom }}</p>
+            {# {% include "composants/_card_article.html.twig" %} #}
+        {% endfor %}
+        </div>
+    </div>
+</section>
+{% endblock %}

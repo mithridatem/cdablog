@@ -49,7 +49,7 @@ class AppFixtures extends Fixture
             $article = new Article();
             $article
                 ->setTitre($faker->words(3, true))
-                ->setContenu($faker->paragraph(2, false))
+                ->setContenu($faker->paragraphs(8, true))
                 ->setDateCreation(new \DateTimeImmutable($faker->date('Y-m-d')))
                 ->setUrlImg($faker->imageUrl(640, 480, 'Article', true))
                 ->setUtilisateur($utilisateurs[$faker->numberBetween(0, 49)])
