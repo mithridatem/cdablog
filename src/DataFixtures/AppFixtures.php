@@ -24,10 +24,38 @@ class AppFixtures extends Fixture
         for ($i=0; $i < 30; $i++) { 
             $cat = new Categorie();
             $cat->setNom($faker->jobTitle());
-            //persister la catégorie
-            $manager->persist($cat);
             //ajouter la catégorie au tableau categories
             $categories[] = $cat;
+            //persister la catégorie
+            $manager->persist($cat);
         }
+
+        $utilisateurs = [];
+        //boucle pour créer 50 utilisateurs
+        for ($i=0; $i < 50 ; $i++) { 
+            $user = new Utilisateur();
+            $user
+                ->setNom($faker->lastName())
+                ->setPrenom($faker->firstName('male'|'female'))
+                ->setEmail($faker->freeEmail())
+                ->setPassword($faker->md5());
+            $utilisateurs[] = $user;
+            $manager->persist($user);
+        }
+
+        //boucle pour ajouter 200 article
+        for ($i=0 ; $i < 200 ; $i++ ) { 
+            $article = new Article();
+            $article
+                ->setTitre($faker->words(3, true))
+                ->setContenu($faker->paragraph(2, false))
+                ->setDateCreation(new \DateTimeImmutable($faker->date('Y-m-d')))
+                ->setUtilisateur($utilisateurs[$faker->numberBetween(0, 49)])
+                ->addCategory($categories[$faker->numberBetween(0, 9)])
+                ->addCategory($categories[$faker->numberBetween(10, 19)])
+                ->addCategory($categories[$faker->numberBetween(20, 29)]);
+            $manager->persist($article);
+        }
+        $manager->flush();
     }
 }
