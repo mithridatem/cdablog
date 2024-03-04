@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use App\Repository\UtilisateurRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ORM\Entity(repositoryClass: UtilisateurRepository::class)]
 class Utilisateur
@@ -11,12 +12,15 @@ class Utilisateur
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
+    #[Groups(['api'])]
     private ?int $id = null;
 
     #[ORM\Column(length: 50)]
+    #[Groups(['api'])]
     private ?string $nom = null;
 
     #[ORM\Column(length: 50)]
+    #[Groups(['api'])]
     private ?string $prenom = null;
 
     #[ORM\Column(length: 50)]
