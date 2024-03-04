@@ -11,44 +11,35 @@
             <div class="grow">
                 <div class="flex justify-between items-center gap-x-2">
  
-    
-                <!-- Button Group -->
-
-                <!-- End Button Group -->
-
-        <!-- End Avatar Media -->
-    
-        <!-- Content -->
-        <div class="space-y-5 md:space-y-8">
-            <div class="space-y-3">
-            <h2 class="text-2xl font-bold md:text-3xl dark:text-white">{{ article.titre }}</h2>
-            </div>
-            <p class="text-lg text-gray-800 dark:text-gray-200">Lorem, ipsum dolor sit amet consectetur adipisicing elit. 
-                Quos repellat nulla cum enim laborum optio quae excepturi facilis voluptatem quasi quam obcaecati 
-                exercitationem suscipit dolores animi voluptate temporibus, quibusdam ipsa. 
-                Lorem ipsum, dolor sit amet consectetur adipisicing elit. Saepe consectetur earum tenetur qui inventore minus 
-                reprehenderit deserunt iusto beatae, eius, odit quidem vero est iste similique 
-                fugiat perferendis quod repellendus.
-            </p>
-            <div>
-            <a class="m-1 inline-flex items-center gap-1.5 py-2 px-3 rounded-full text-sm bg-gray-100 text-gray-800 hover:bg-gray-200 dark:bg-gray-800 dark:hover:bg-gray-700 dark:text-gray-200 dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600" href="#">
-                Categorie1
-            </a>
-            <a class="m-1 inline-flex items-center gap-1.5 py-2 px-3 rounded-full text-sm bg-gray-100 text-gray-800 hover:bg-gray-200 dark:bg-gray-800 dark:hover:bg-gray-700 dark:text-gray-200 dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600" href="#">
-                Categorie2
-            </a>
-            <a class="m-1 inline-flex items-center gap-1.5 py-2 px-3 rounded-full text-sm bg-gray-100 text-gray-800 hover:bg-gray-200 dark:bg-gray-800 dark:hover:bg-gray-700 dark:text-gray-200 dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600" href="#">
-                Categorie3
-            </a>
-            </div>
-            <div class="grow">
-                <p class="text-lg font-semibold text-gray-200">
-                Auteur article
-                </p>
-                <p class="text-lg font-semibold text-gray-200">
-                    Date article
-                </p>
-            </div>
+            {% if article is null %}
+                <h2 class="text-2xl font-bold md:text-3xl dark:text-white">L'article n'existe pas</h2>
+            {% else %}
+            <div class="space-y-5 md:space-y-8">
+                <div class="space-y-3">
+                    <h2 class="text-2xl font-bold md:text-3xl dark:text-white">{{ article.titre }}</h2>
+                    </div>
+                    <img class="h-auto rounded-t-xl w-36" src="{{ article.urlImg }}" alt="Image Description">
+                    <p class="text-lg text-gray-800 dark:text-gray-200">
+                        {{ article.contenu }}
+                    </p>
+                    <div>
+                        {% for art in article.categories %}
+                        <a class="m-1 inline-flex items-center gap-1.5 py-2 px-3 rounded-full text-sm bg-gray-100 text-gray-800 hover:bg-gray-200 dark:bg-gray-800 dark:hover:bg-gray-700 dark:text-gray-200 dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600" href="#">
+                            {{ art.nom }}
+                        </a>
+                        {% endfor %}
+                    </div>
+                <div class="grow">
+                    <p class="text-lg font-semibold text-gray-200">
+                    {{ article.utilisateur.nom }} {{ article.utilisateur.prenom }}
+                    </p>
+                    <p class="text-lg font-semibold text-gray-200">
+                        {{ article.dateCreation | date("d/m/Y") }}
+                    </p>
+                </div>
+            {% endif %}
+           
+            
         </div>
         </div>
     </div>
