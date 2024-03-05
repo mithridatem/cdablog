@@ -5,22 +5,42 @@ namespace App\Entity;
 use App\Repository\UtilisateurRepository;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Serializer\Annotation\Groups;
+use ApiPlatform\Metadata\ApiResource;
+use ApiPlatform\Metadata\Get;
+use ApiPlatform\Metadata\Post;
+use ApiPlatform\Metadata\Delete;
+use ApiPlatform\Metadata\GetCollection;
+
+
 
 #[ORM\Entity(repositoryClass: UtilisateurRepository::class)]
+#[ApiResource(
+    operations: [
+        new Get(
+            uriTemplate: '/users/{id}', 
+            requirements: ['id' => '\d+'],
+            normalizationContext: ['groups' => 'user:item']),
+        new GetCollection(
+            uriTemplate: '/users',
+            normalizationContext: ['groups' => 'user:list']),
+    ],
+    order: ['nom' => 'ASC', 'prenom'=> 'ASC'],
+    paginationEnabled: false
+)]
 class Utilisateur
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
-    #[Groups(['api'])]
+    #[Groups(['api','user:item','user:list','article:item','article:list' ])]
     private ?int $id = null;
 
     #[ORM\Column(length: 50)]
-    #[Groups(['api'])]
+    #[Groups(['api','user:item','user:list','article:item','article:list' ])]
     private ?string $nom = null;
 
     #[ORM\Column(length: 50)]
-    #[Groups(['api'])]
+    #[Groups(['api','user:item','user:list','article:item','article:list' ])]
     private ?string $prenom = null;
 
     #[ORM\Column(length: 50)]
@@ -30,6 +50,7 @@ class Utilisateur
     private ?string $password = null;
 
     #[ORM\Column(length: 200)]
+    #[Groups(['api','user:item','user:list','article:item','article:list' ])]
     private ?string $urlImg = null;
 
     public function getId(): ?int

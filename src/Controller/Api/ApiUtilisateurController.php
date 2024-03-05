@@ -171,6 +171,7 @@ class ApiUtilisateurController extends AbstractController{
             $msg = ["le compte n'existe pas"];
             $code = 206;
         }
+        
         return $this->json($msg, $code, ["Access-Control-Allow-Origin" => "*"], ["groups"=> "api"]);
     }
 }
