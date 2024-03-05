@@ -7,6 +7,7 @@ use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\HttpFoundation\Response;
 use App\Entity\Utilisateur;
 use App\Repository\UtilisateurRepository;
+use App\Repository\ArticleRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
@@ -38,7 +39,7 @@ class ApiUtilisateurController extends AbstractController{
 
     }
 
-    #[Route('/api/utilisateur/all', name:'app_api_utilisateur_all', methods:'GET')]
+    #[Route('/api/utilisateur', name:'app_api_utilisateur_all', methods:'GET')]
     public function getAllUtilisateur() : Response 
     {
         return $this->json($this->utilisateurRepository->findAll(), 200, [
@@ -46,7 +47,7 @@ class ApiUtilisateurController extends AbstractController{
         ], ["groups"=> "api"]);
     }
 
-    #[Route('/api/utilisateur/add', name:'app_api_utilisateur_add', methods:'POST')]
+    #[Route('/api/utilisateur', name:'app_api_utilisateur_add', methods:'PUT')]
     public function addUtilisateur(Request $request) : Response 
     {
         //réupérer le contenu de la requête
@@ -88,7 +89,7 @@ class ApiUtilisateurController extends AbstractController{
         return $this->json($message,$code, ["Access-Control-Allow-Origin" => "*"]);
     }
 
-    #[Route('/api/utilisateur/update', name:'app_api_utilisateur_update', methods:'POST')]
+    #[Route('/api/utilisateur', name:'app_api_utilisateur_update', methods:'PATCH')]
     public function updateUtilisateur(Request $request) : Response 
     {
         //récupération du json
@@ -125,5 +126,34 @@ class ApiUtilisateurController extends AbstractController{
             $code = 400;
         }
         return $this->json($msg,$code,["Access-Control-Allow-Origin" => "*",]);
+    }
+
+    #[Route('api/utilisateur/{id}', name:'app_api_utilisateur_delete', methods:'DELETE')]
+    public function removeUtilisateur($id, ArticleRepository $articleRepository) : Response 
+    {
+        //récupérer le compte à supprimer
+        $utilisateur = $this->utilisateurRepository->find($id);
+        if($utilisateur) {
+            //Récupération des articles
+            $articles = $articleRepository->findBy(["utilisateur"=>$utilisateur]);
+            
+            //boucle pour supprimer les articles liés à l'utilisateur
+            foreach ($articles as $article) {
+                //supprimer les articles
+                $this->manager->remove($article);
+            }
+            //supprimer l'utilisateur
+            $this->manager->remove($utilisateur);
+            $this->manager->flush();
+            //message confirmation
+            $msg = ["Le compte à bien été supprimé"];
+            $code = 200;
+        }
+        else {
+           $msg = ["Erreur"=>"Le compte n'existe pas"];
+           $code = 400;
+        }
+        
+        return $this->json($msg, $code,["Access-Control-Allow-Origin" => "*",] );
     }
 }
