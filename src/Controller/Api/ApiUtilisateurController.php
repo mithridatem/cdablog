@@ -87,4 +87,43 @@ class ApiUtilisateurController extends AbstractController{
 
         return $this->json($message,$code, ["Access-Control-Allow-Origin" => "*"]);
     }
+
+    #[Route('/api/utilisateur/update', name:'app_api_utilisateur_update', methods:'POST')]
+    public function updateUtilisateur(Request $request) : Response 
+    {
+        //récupération du json
+        $json = $request->getContent();
+        //tester si le json est valide (si il existe)
+        if($json){
+            //convertir le json en objet Utilisateur
+            $utilisateur = $this->serializer->deserialize($json, Utilisateur::class, "json");
+            //récupérer le compte utilisateur
+            $userRecup = $this->utilisateurRepository->findOneBy(["email"=>$utilisateur->getEmail()]);
+            //test si le compte existe
+            if($userRecup){
+                //setter les nouvelles valeurs
+                $userRecup->setNom($utilisateur->getNom());
+                $userRecup->setPrenom($utilisateur->getPrenom());
+                $userRecup->setPassword(md5($utilisateur->getPassword()));
+                $userRecup->setUrlImg($utilisateur->getUrlImg());
+                //persit les données
+                $this->manager->persist($userRecup);
+                //enregistre en BDD
+                $this->manager->flush();
+                $msg = $userRecup;
+                $code = 200;
+            }
+            //test le compte n'existe pas
+            else{
+                $msg = ["Erreur"=> "Les informations sont incorrectes"];
+                $code = 400;
+            }
+        }
+        //test si il n'existe pas (vide)
+        else {
+            $msg = ["Erreur"=>"Le json est invalide"];
+            $code = 400;
+        }
+        return $this->json($msg,$code,["Access-Control-Allow-Origin" => "*",]);
+    }
 }
