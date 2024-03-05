@@ -1,0 +1,11 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Ajouter une categorie{% endblock %}
+
+{% block body %}
+    {{ form_start(form) }}
+    {{ form_row(form.nom) }}
+    <!--<input type="submit" value="Ajouter">-->
+    {{ form_end(form) }}
+    <p>{{ msg }}</p>
+{% endblock %}
