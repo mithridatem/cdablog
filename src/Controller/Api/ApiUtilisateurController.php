@@ -156,4 +156,21 @@ class ApiUtilisateurController extends AbstractController{
         
         return $this->json($msg, $code,["Access-Control-Allow-Origin" => "*",] );
     }
+    #[Route('/api/utilisateur/{id}', name:'app_api_utilisateur_id', methods:'GET')]
+    public function getUtilisateurById($id) : Response 
+    {   
+        //récupération du compte
+        $utilisateur = $this->utilisateurRepository->find($id);
+        //test si le compte existe
+        if($utilisateur) {
+            $msg = $utilisateur;
+            $code = 200;
+        }
+        //test le compte n'existe pas
+        else {
+            $msg = ["le compte n'existe pas"];
+            $code = 206;
+        }
+        return $this->json($msg, $code, ["Access-Control-Allow-Origin" => "*"], ["groups"=> "api"]);
+    }
 }
