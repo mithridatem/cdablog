@@ -25,7 +25,7 @@ class UtilisateurController extends AbstractController
         $form->handleRequest($request);
         //tester si le formulaire est submit
         if($form->isSubmitted() and $form->isValid()) {
-           
+           /* dd($request->request->all('utilisateur')); */
             //nettoyer les entrées
             $utilisateur->setNom(UtilsService::cleanInput($utilisateur->getNom()));
             $utilisateur->setPrenom(UtilsService::cleanInput($utilisateur->getPrenom()));

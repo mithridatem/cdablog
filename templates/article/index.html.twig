@@ -1,0 +1,24 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Liste des articles{% endblock %}
+
+{% block body %}
+    {{ form_start(form) }}
+    {{ form_label(form.titre) }}
+    {{ form_widget(form.titre) }}
+    {{ form_label(form.contenu) }}
+    {{ form_widget(form.contenu) }}
+    {{ form_label(form.dateCreation) }}
+    {{ form_widget(form.dateCreation) }}
+    {{ form_label(form.utilisateur) }}
+    {{ form_widget(form.utilisateur) }}
+    {{ form_label(form.categories) }}
+    {{ form_widget(form.categories) }}
+    {{ form_errors(form) }}
+    {{ form_rest(form) }}
+    {# <label for="valid"> Cocher la case pour accecpter la création</label>
+    <input type="checkbox" name="valid" id=""> #}
+    <input type="submit" value="Ajouter">
+    {{ form_end(form) }}
+    <p> {{ message }}</p>
+{% endblock %}

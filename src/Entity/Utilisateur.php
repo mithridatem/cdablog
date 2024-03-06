@@ -10,7 +10,7 @@ use ApiPlatform\Metadata\Get;
 use ApiPlatform\Metadata\Post;
 use ApiPlatform\Metadata\Delete;
 use ApiPlatform\Metadata\GetCollection;
-
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: UtilisateurRepository::class)]
 #[ApiResource(
@@ -43,9 +43,20 @@ class Utilisateur
     private ?string $prenom = null;
 
     #[ORM\Column(length: 50)]
+    #[Assert\Email(
+        message: 'The email {{ value }} is not a valid email.',
+    )]
     private ?string $email = null;
 
     #[ORM\Column(length: 100)]
+    #[Assert\NotCompromisedPassword(
+       message: 'Votre mot de passe à été leake dans une fuite de données, 
+       Veuillez choisir un autre mot de passe.'
+    )]
+    #[Assert\Regex(
+        pattern:'/(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9]).{12,}/',
+        match:true,
+        message:'Le mot de passe doit contenir des min, maj et des nombres',)]
     private ?string $password = null;
 
     #[ORM\Column(length: 200)]
