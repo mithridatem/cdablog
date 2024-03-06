@@ -7,8 +7,11 @@
       <p class="mt-5 text-xs text-gray-500 dark:text-gray-500">
         {{ article.dateCreation | date("d m Y") }}
       </p>
-      <p class="mt-5 text-xs text-gray-500 dark:text-gray-500">
+      <p class="mt-5 text-xs text-gray-700 dark:text-gray-700">
         <a href="{{ path('app_article_id', { id:article.id }) }}">Détail</a>
+      </p>
+      <p class="mt-5 text-xs text-gray-700 dark:text-gray-700">
+        <a href="{{ path('app_update_article', { id:article.id }) }}">Modifier</a>
       </p>
     </div>
 </div>
