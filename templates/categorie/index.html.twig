@@ -3,9 +3,18 @@
 {% block title %}Ajouter une categorie{% endblock %}
 
 {% block body %}
-    {{ form_start(form) }}
-    {{ form_row(form.nom) }}
-    <!--<input type="submit" value="Ajouter">-->
-    {{ form_end(form) }}
-    <p>{{ msg }}</p>
+{{ form_start(form, {'attr': {'class': 'max-w-sm mx-auto my-52'} } ) }}
+<h2 class="text-xl font-bold dark:text-white mb-3">Ajouter une catégorie</h2>
+    {# Label et input nom #}
+    <div class="mb-5">
+        {{ form_label(form.nom) }}
+        {{ form_widget(form.nom) }}
+    </div>
+    <input type="submit" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 
+    focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto 
+    px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+    value="Ajouter" name="categorie[ajouter]">
+    <p class="text-xl font-bold text-red-600 mt-2 dark:text-red-600">{{ msg }}</p>
+{{ form_end(form) }}
+<p>{{ msg }}</p>
 {% endblock %}

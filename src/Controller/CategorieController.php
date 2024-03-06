@@ -19,7 +19,7 @@ class CategorieController extends AbstractController
         $form = $this->createForm(CategorieType::class, $categorie);
         $form->handleRequest($request);
         if($form->isSubmitted())
-        {   
+        {  
             $em->persist($categorie);
             $em->flush();
             $msg = "La categorie à été ajouté en BDD";
