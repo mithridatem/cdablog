@@ -8,11 +8,18 @@ use Symfony\Component\Routing\Attribute\Route;
 use App\Form\CategorieType;
 use App\Entity\Categorie;
 use Symfony\Component\HttpFoundation\Request;
-use Doctrine\ORM\EntityManagerInterface;
+use App\Service\CategorieService;
+
 class CategorieController extends AbstractController
 {
+
+    public function __construct(private CategorieService $categorieService) 
+    {
+        $this->categorieService = $categorieService;
+    }
+
     #[Route('/categorie/add', name: 'app_categorie_add')]
-    public function addCategorie(Request $request ,EntityManagerInterface $em): Response
+    public function addCategorie(Request $request): Response
     {
         $msg = "";
         $categorie = new Categorie();
@@ -20,9 +27,12 @@ class CategorieController extends AbstractController
         $form->handleRequest($request);
         if($form->isSubmitted())
         {  
-            $em->persist($categorie);
-            $em->flush();
-            $msg = "La categorie à été ajouté en BDD";
+            if($this->categorieService->create($categorie) ) {
+                $msg = "La categorie à été ajouté en BDD";
+            }
+            else {
+                $msg = "Enregistrement impossible";
+            }
         }
         return $this->render('categorie/index.html.twig', [
             'form'=> $form->createView(),
