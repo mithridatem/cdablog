@@ -19,7 +19,8 @@
         {{ form_label(form.urlImg) }}
         {{ form_widget(form.urlImg) }}
         {{ form_rest(form) }}
-    <input type="submit" value="Ajouter" name="utilisateur[ajouter]">
+        {{ form_errors(form) }}
+        <input type="submit" value="Ajouter">
     {{ form_end(form) }}
     <p>{{ message }}</p>
 {% endblock %}

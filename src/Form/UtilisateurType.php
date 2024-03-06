@@ -8,6 +8,7 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\Extension\Core\Type\RepeatedType;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -19,21 +20,21 @@ class UtilisateurType extends AbstractType
         $builder
             ->add('nom',TextType::class,[
                 'attr' => ["class" =>'input'],
-                'empty_data' => '',
+                
                 'label' => 'Saisir votre nom :',
                 'label_attr' => ['class'=>'label'],
                 'required' => true,
             ])
             ->add('prenom', TextType::class,[
                 'attr' => ["class" =>'input'],
-                'empty_data' => '',
+                
                 'label' => 'Saisir votre prénom :',
                 'label_attr' => ['class'=>'label'],
                 'required' => true,
             ])
-            ->add('email',EmailType::class,[
+            ->add('email',TextType::class,[
                 'attr' => ["class" =>'input'],
-                'empty_data' => '',
+                
                 'label' => 'Saisir votre email :',
                 'label_attr' => ['class'=>'label'],
                 'required' => true,
@@ -42,18 +43,17 @@ class UtilisateurType extends AbstractType
                 'type' => PasswordType::class,
                 'invalid_message' => 'les mots de passe ne correspondent pas',
                 'options' => ['attr' => ['class' => 'password-field']],
-                'required' => true,
-                'empty_data' => '',
+                'required' => false,
                 'first_options'  => ['label' => 'Mot de passe'],
                 'second_options' => ['label' => 'Confirmation du mot de passe'],
             ])
             ->add('urlImg',TextType::class,[
                 'attr' => ["class" =>'input'],
-                'empty_data' => '',
                 'label' => 'Saisir votre image :',
                 'label_attr' => ['class'=>'label'],
                 'required' => false,
             ])
+            /* ->add('ajouter', SubmitType::class) */
         ;
     }
 

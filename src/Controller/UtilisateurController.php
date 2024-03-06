@@ -25,6 +25,7 @@ class UtilisateurController extends AbstractController
         $form->handleRequest($request);
         //tester si le formulaire est submit
         if($form->isSubmitted() and $form->isValid()) {
+           
             //nettoyer les entrées
             $utilisateur->setNom(UtilsService::cleanInput($utilisateur->getNom()));
             $utilisateur->setPrenom(UtilsService::cleanInput($utilisateur->getPrenom()));
@@ -45,7 +46,8 @@ class UtilisateurController extends AbstractController
             else{
                 $msg = "Les informations sont incorrectes";
             }
-        }
+        }    
+        
         return $this->render('utilisateur/index.html.twig', [
             'form' => $form->createView(),
             'message' => $msg,
