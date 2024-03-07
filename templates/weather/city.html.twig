@@ -1,0 +1,23 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Météo de Toulouse{% endblock %}
+
+{% block body %}
+    <h1>météo de la ville</h1>
+    {{ form_start(form) }}
+        {{ form_label(form.city) }}
+        {{ form_widget(form.city) }}
+        {{ form_errors(form.city) }}
+        {{ form_rest(form) }}
+        <input type="submit" value="Afficher">
+    {{ form_end(form) }}
+
+    {% if meteo.cod is defined and meteo.cod == 200 %}
+        <h2>Météo de : {{ meteo.name }}</h2>
+        <h2>Il fait : {{ meteo.main.temp -273.15 }} °</h2>
+        <h2>{{ meteo.weather[0].main }} </h2>
+        <img src="https://openweathermap.org/img/wn/{{ meteo.weather[0].icon }}@2x.png" alt="icone de la météo">
+    {% elseif meteo.cod is defined and meteo.cod == 404 %}
+        {{ meteo.erreur }}
+    {% endif %}
+{% endblock %}

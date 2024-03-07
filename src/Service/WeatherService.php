@@ -28,4 +28,40 @@ class WeatherService
         //Retourne le tableau
         return $response;
     }
+
+    public function getWeatherByCity(string $city) :array 
+    {
+        try {
+            //requête API
+            $data = $this->client->request(
+                "GET",
+                "https://api.openweathermap.org/data/2.5/weather?q=" . $city .   "&appid=" . $this->apiKey,
+            );
+            //test si la ville n'existe pas
+            if($data->getStatusCode() === 404) {
+                //retourner un exeception
+                throw new \Exception("La ville n'existe pas"); 
+            }
+            //stocket le tableau avec la météo ville
+            $response = $data->toArray();
+            //retourner le tableau
+            return $response;
+        } 
+        catch (\Throwable $th) {
+            return ["erreur"=> $th->getMessage(), "cod" => 404];
+        }
+    }
+    //version sans try catch (à ne pas utiliser)
+    public function getWeatherByCityV2(string $city) :array 
+    {
+        //requête API
+        $data = $this->client->request(
+            "GET",
+            "https://api.openweathermap.org/data/2.5/weather?q=" . $city .   "&appid=" . $this->apiKey,
+        );
+        //stocket le tableau avec la météo ville
+        $response = $data->toArray();
+        //retourner le tableau
+        return $response;
+    }
 }
