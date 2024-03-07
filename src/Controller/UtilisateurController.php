@@ -7,17 +7,15 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Attribute\Route;
 use App\Entity\Utilisateur;
-use Doctrine\ORM\EntityManagerInterface;
 use App\Form\UtilisateurType;
 use App\Service\UtilsService;
-use App\Repository\UtilisateurRepository;
+use App\Service\UtilisateurService;
+
 
 class UtilisateurController extends AbstractController
 {
     #[Route('/utilisateur/add', name: 'app_utilisateur_add')]
-    public function addUtilisateur(Request $request, 
-        EntityManagerInterface $em, 
-        UtilisateurRepository $repo) : Response
+    public function addUtilisateur(Request $request, UtilisateurService $userService) : Response
     {
         $msg = "";
         $utilisateur = new Utilisateur();
@@ -36,18 +34,13 @@ class UtilisateurController extends AbstractController
                 $utilisateur->setUrlImg(UtilsService::cleanInput($utilisateur->getUrlImg()));
             }
             //test si le compte n'existe pas
-            if(!$repo->findOneBy(["email"=>$utilisateur->getEmail()])) {
-                //hasher le password
-                $utilisateur->setPassword(md5($utilisateur->getPassword()));
-                $em->persist($utilisateur);
-                $em->flush();
+            if($userService->create($utilisateur)) {
                 $msg = "Le compte " . $utilisateur->getNom() . " a été ajouté en BDD";
             }
             else{
                 $msg = "Les informations sont incorrectes";
             }
         }    
-        
         return $this->render('utilisateur/index.html.twig', [
             'form' => $form->createView(),
             'message' => $msg,
