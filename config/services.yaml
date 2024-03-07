@@ -21,6 +21,7 @@ services:
             - '../src/Kernel.php'
     App\Service\WeatherService:
         arguments: ['%env(WEATHER_API_KEY)%']
-
+    App\Service\EmailService:
+        arguments: ['%env(SMTP_SERVER)%', '%env(SMTP_PORT)%', '%env(SMTP_ACCOUNT)%', '%env(SMTP_PWD)%']
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones
