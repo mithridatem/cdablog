@@ -21,9 +21,9 @@ class WeatherController extends AbstractController
     public function showWeather(): Response
     {
         $meteo = $this->weatherService->getWeather();
-        dd($meteo);
+        
         return $this->render('weather/index.html.twig', [
-            'controller_name' => 'WeatherController',
+            'meteo' => $meteo,
         ]);
     }
 }
